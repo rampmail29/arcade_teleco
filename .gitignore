@@ -134,3 +134,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Expo / React Native (ARCADE UTS)
+.expo/
+dist/
+web-build/
+*.p12
+*.mobileprovision
+*.orig.*
+.DS_Store
