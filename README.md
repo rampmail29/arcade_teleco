@@ -182,6 +182,7 @@ feature/game-trivia
 feature/game-memorama
 feature/game-sudoku
 feature/game-game4
+feature/game-...
 ```
 
 Flujo: `branch → commit → push → Pull Request → Code Review → merge`.
@@ -191,7 +192,7 @@ No se trabaja directamente sobre `main`.
 
 - **Corte 1 (en curso):** scaffold de arquitectura, navegación, componentes comunes,
   autenticación con Firebase y datos mock. Rama de esta entrega: `chore/initial_arq`.
-- Los cuatro juegos (Trivia, Memorama, Sudoku, Game4) están representados con sus tres
+- Los juegos (Trivia, Memorama, Sudoku, Game4, etc.) están representados con sus tres
   pantallas (Home, Game, Result) de forma demostrativa, pendientes de lógica real por
   parte de cada grupo.
 
@@ -217,4 +218,4 @@ GET    /api/games/:id/history
 
 ---
 
-React Native no es toda la aplicación: es el frontend de un sistema mayor.
+React Native es solo el FE de un sistema mayor
