@@ -143,3 +143,4 @@ web-build/
 *.mobileprovision
 *.orig.*
 .DS_Store
+package-lock.json
