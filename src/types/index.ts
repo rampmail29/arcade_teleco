@@ -2,16 +2,6 @@
  * types/index.ts
  * Tipos e interfaces compartidos por toda la aplicación.
  */
-import type { User as FirebaseUser } from 'firebase/auth';
-
-// ── Auth ──
-export interface AuthContextType {
-  user: FirebaseUser | null;
-  isAuthenticated: boolean;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-}
 
 // ── Games ──
 export interface Game {
@@ -37,10 +27,6 @@ export type RootStackParamList = {
   Game4: undefined;
   Game4Game: undefined;
   Game4Result: { score: number };
-};
-
-export type AuthStackParamList = {
-  Login: undefined;
 };
 
 // ── Mock Data ──

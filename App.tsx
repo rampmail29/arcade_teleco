@@ -1,16 +1,15 @@
 /**
  * App.tsx
- * Punto de entrada. Monta el ÚNICO AuthProvider y el ÚNICO AppNavigator
- * (que a su vez contiene el ÚNICO NavigationContainer de la aplicación).
+ * Punto de entrada.
+ *
+ * NOTA: no incluye estrategia de autenticación por diseño. Cada grupo de
+ * trabajo implementará su propia estrategia (Firebase, backend propio,
+ * OAuth, etc.) en fases posteriores del curso. Cuando eso ocurra, aquí se
+ * reintroduce el/los provider(s) correspondientes envolviendo AppNavigator.
  */
 import React from 'react';
-import { AuthProvider } from './src/context/AuthContext';
 import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App(): React.JSX.Element {
-  return (
-    <AuthProvider>
-      <AppNavigator />
-    </AuthProvider>
-  );
+  return <AppNavigator />;
 }

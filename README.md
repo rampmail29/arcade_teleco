@@ -7,17 +7,21 @@
 ## 2. Objetivo
 
 Servir como proyecto de aula durante tres cortes académicos de la asignatura, validando
-progresivamente arquitectura frontend, navegación, autenticación y, más adelante,
-integración con una API REST propia.
+progresivamente arquitectura frontend, navegación y, más adelante, integración con una
+API REST propia.
 
 ## 3. Stack
 
 **Frontend**
-- React Native + Expo + JavaScript + JSX
+- React Native + Expo (EAS) + TypeScript
 - React Navigation
-- Firebase Authentication
 - AsyncStorage (cuando sea necesario)
 - Fetch para HTTP
+
+**Autenticación**
+- No incluida en el scaffold base. Cada grupo de trabajo implementará su propia
+  estrategia (Firebase Authentication, backend propio, OAuth, etc.) en una fase
+  posterior del curso. Ver sección 11.
 
 **Backend futuro** (no implementado en esta versión)
 - Node.js + Express, API REST, ORM, base de datos relacional
@@ -30,7 +34,6 @@ integración con una API REST propia.
 - Node.js LTS
 - npm
 - Expo Go (dispositivo físico) o emulador Android/iOS
-- Cuenta de Firebase (Authentication habilitado)
 
 ## 5. Instalación
 
@@ -59,7 +62,6 @@ arcade-uts-mobile/
 │   │   ├── common/
 │   │   └── game/
 │   ├── screens/
-│   │   ├── auth/
 │   │   ├── home/
 │   │   └── games/
 │   │       ├── trivia/
@@ -67,15 +69,14 @@ arcade-uts-mobile/
 │   │       ├── sudoku/
 │   │       └── game4/
 │   ├── navigation/
-│   ├── context/
-│   ├── hooks/
 │   ├── services/
 │   ├── utils/
-│   ├── config/
-│   └── data/
-├── App.jsx
+│   ├── data/
+│   └── types/
+├── App.tsx
 ├── package.json
 ├── app.json
+├── tsconfig.json
 ├── .gitignore
 └── README.md
 ```
@@ -87,14 +88,12 @@ arcade-uts-mobile/
 | `assets/` | Recursos estáticos (imágenes, iconos, fuentes). Sin lógica de aplicación. |
 | `components/common/` | Componentes reutilizables generales (`AppButton`, `AppCard`, `AppInput`, `Loading`, `ErrorMessage`). |
 | `components/game/` | Componentes comunes al concepto de juego (`GameCard`, `GameGrid`, `GameHeader`). No dependen de un juego específico. |
-| `screens/` | Vistas completas. Consumen componentes, hooks, context y services — nunca HTTP ni Firebase directamente. |
-| `navigation/` | `AppNavigator`, `AuthNavigator`, `GameNavigator`. Un único `NavigationContainer`. |
-| `context/` | `AuthContext`: estado global de autenticación. Sin componentes visuales. |
-| `hooks/` | `useAuth`: encapsula el acceso a `AuthContext`. |
-| `services/` | `authService` (Firebase) y `apiClient` (HTTP común, preparado para el Corte 2). |
+| `screens/` | Vistas completas. Consumen componentes, services y datos — nunca HTTP directo (ver `services/apiClient`). |
+| `navigation/` | `AppNavigator` (único `NavigationContainer`) y `GameNavigator`. |
+| `services/` | `apiClient`: cliente HTTP común, preparado para el Corte 2 (sin backend real todavía). |
 | `utils/` | Constantes, validadores y formateadores puros. |
-| `config/` | `firebase.js` y `environment.js`: configuración centralizada. |
 | `data/` | `games.js` (catálogo de juegos) y `mockData.js` (datos temporales del Corte 1). |
+| `types/` | Tipos e interfaces de TypeScript compartidos (`Game`, `RootStackParamList`, datos mock, etc.). |
 
 ## 9. Arquitectura
 
@@ -107,8 +106,6 @@ arcade-uts-mobile/
        |             |             |
        +-------------+-------------+
                      |
-              HOOKS / CONTEXT
-                     |
                  SERVICES
                      |
                 apiClient
@@ -118,57 +115,59 @@ arcade-uts-mobile/
                   BACKEND
                      |
                  DATABASE
-
-Firebase Authentication
-          |
-       Identity
 ```
 
-Principio fundamental: `SCREEN → HOOK/CONTEXT → SERVICE → API CLIENT → BACKEND`.
-Ninguna screen debe saltarse esta cadena.
+Principio fundamental: `SCREEN → SERVICE → API CLIENT → BACKEND`.
+Ninguna screen debe saltarse esta cadena ni hacer `fetch()` directo.
+
+Cuando cada grupo incorpore su estrategia de autenticación, esta cadena se antepone
+con su propio flujo (hook/context/servicio de auth) — ver sección 11.
 
 ## 10. Navegación
 
 ```text
                  App
                   |
-          ¿Autenticado?
-             /       \
-           NO         SÍ
-           |           |
-           v           v
-         Login      Game Hub
-                       |
-          +------------+------------+
-          |            |            |
-        Trivia       Memorama     Sudoku ... Game4
+              Game Hub
+                  |
+   +--------------+--------------+
+   |              |              |
+ Trivia        Memorama       Sudoku ... Game4
 ```
 
-`AppNavigator` decide el flujo activo según `isAuthenticated` (nunca ocultando botones:
-el árbol de navegación depende del estado real). Existe un estado `loading` durante la
-restauración inicial de sesión.
+`AppNavigator` monta un único `NavigationContainer` y renderiza `GameNavigator`
+directamente: no hay bifurcación por estado de sesión en el scaffold base (ver
+sección 11).
 
 ## 11. Autenticación
+
+**Intencionalmente no incluida en este scaffold.** El árbol de directorios no trae
+`context/`, `hooks/` ni un servicio de autenticación: cada grupo de trabajo diseñará
+e implementará su propia estrategia (Firebase Authentication, backend propio con JWT,
+OAuth, etc.) como parte de su entrega.
+
+Recomendación de patrón, independientemente de la estrategia elegida:
 
 ```text
 LoginScreen
     |
     v
-useAuth()
+useAuth() (hook propio del grupo)
     |
     v
-AuthContext
+AuthContext (o el mecanismo de estado global que el grupo defina)
     |
     v
-authService
+authService (encapsula el proveedor elegido)
     |
     v
-Firebase Authentication
+Proveedor de autenticación (Firebase, backend propio, etc.)
 ```
 
-Firebase responde **quién es el usuario**. El backend futuro responderá **qué puede
-hacer y qué información de negocio puede consultar/modificar**. No se usa Firestore
-como base de datos principal del proyecto.
+Regla que se mantiene sin importar la estrategia: ninguna `Screen` debe llamar
+directamente al proveedor de autenticación. Siempre debe pasar por un
+hook/servicio propio, replicando el mismo principio de capas del resto del proyecto
+(sección 9).
 
 ## 12. Git/GitHub
 
@@ -190,8 +189,10 @@ No se trabaja directamente sobre `main`.
 
 ## 13. Estado actual
 
-- **Corte 1 (en curso):** scaffold de arquitectura, navegación, componentes comunes,
-  autenticación con Firebase y datos mock. Rama de esta entrega: `chore/initial_arq`.
+- **Corte 1 (en curso):** scaffold de arquitectura en TypeScript (Expo 57 / React
+  Native 0.86), navegación, componentes comunes y datos mock. Rama de esta entrega:
+  `chore/initial_arq`.
+- Sin estrategia de autenticación (ver sección 11): queda a cargo de cada grupo.
 - Los juegos (Trivia, Memorama, Sudoku, Game4, etc.) están representados con sus tres
   pantallas (Home, Game, Result) de forma demostrativa, pendientes de lógica real por
   parte de cada grupo.
@@ -200,9 +201,10 @@ No se trabaja directamente sobre `main`.
 
 ```text
 CORTE 1                CORTE 2                    CORTE 3
-Frontend + Auth   →     API REST                → Integración final
-Firebase                services/apiClient/HTTP     Testing, CI/CD, Deployment
-Mock Data               → Backend → Database         → APK
+Frontend (TS)     →     API REST                → Integración final
++ Mock Data              services/apiClient/HTTP    Auth definitiva por grupo
+                          → Backend → Database        Testing, CI/CD, Deployment
+                                                        → APK
 ```
 
 Endpoints preliminares de referencia (no definitivos):
@@ -218,4 +220,4 @@ GET    /api/games/:id/history
 
 ---
 
-React Native es solo el FE de un sistema mayor
+React Native es solo el frontend de un sistema mayor.
