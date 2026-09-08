@@ -13,10 +13,10 @@
  * NavigationContainer.
  */
 import { NavigationContainer } from '@react-navigation/native';
-import { useAuth } from '../hooks/useAuth';
-import AuthNavigator from './AuthNavigator';
-import GameNavigator from './GameNavigator';
-import Loading from '../components/common/Loading';
+import { useAuth } from '../src/hooks/useAuth';
+import AuthNavigator from '../src/navigation/AuthNavigator';
+import GameNavigator from '../src/navigation/GameNavigator';
+import Loading from '../src/components/common/Loading';
 
 export default function AppNavigator() {
   const { isAuthenticated, loading } = useAuth();

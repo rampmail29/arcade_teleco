@@ -1,6 +1,6 @@
 /**
- * TriviaHomeScreen
- * Responsabilidad: pantalla inicial del juego "Trivia" (reglas, nivel, botón
+ * SudokuHomeScreen
+ * Responsabilidad: pantalla inicial del juego "Sudoku" (reglas, nivel, botón
  * de inicio). Cada juego expone exactamente 3 screens: Home, Game y Result
  * (sección 27, criterio de aceptación "Juegos").
  *
@@ -8,15 +8,15 @@
  * pasarán a consumir gameService -> apiClient -> API REST.
  */
 import { View, Text, StyleSheet } from 'react-native';
-import GameHeader from '../../../components/game/GameHeader';
-import AppButton from '../../../components/common/AppButton';
+import GameHeader from '../src/components/game/GameHeader';
+import AppButton from '../src/components/common/AppButton';
 
-export default function TriviaHomeScreen({ navigation }) {
+export default function SudokuHomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <GameHeader title="Trivia" />
-      <Text>Pantalla de inicio de Trivia (demostrativa).</Text>
-      <AppButton title="Jugar" onPress={() => navigation.navigate('TriviaGame')} />
+      <GameHeader title="Sudoku" />
+      <Text>Pantalla de inicio de Sudoku (demostrativa).</Text>
+      <AppButton title="Jugar" onPress={() => navigation.navigate('SudokuGame')} />
     </View>
   );
 }

@@ -12,10 +12,10 @@
  */
 import { View, StyleSheet } from 'react-native';
 import { useState } from 'react';
-import AppInput from '../../components/common/AppInput';
-import AppButton from '../../components/common/AppButton';
-import ErrorMessage from '../../components/common/ErrorMessage';
-import { useAuth } from '../../hooks/useAuth';
+import AppInput from '../src/components/common/AppInput';
+import AppButton from '../src/components/common/AppButton';
+import ErrorMessage from '../src/components/common/ErrorMessage';
+import { useAuth } from '../src/hooks/useAuth';
 
 export default function LoginScreen() {
   const { login } = useAuth();

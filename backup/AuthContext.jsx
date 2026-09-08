@@ -9,7 +9,7 @@
  *   AuthContext -> authService -> Firebase Authentication
  */
 import { createContext, useEffect, useState } from 'react';
-import { loginWithEmail, logout as logoutService, subscribeToAuthChanges } from '../services/authService';
+import { loginWithEmail, logout as logoutService, subscribeToAuthChanges } from '../src/services/authService';
 
 export const AuthContext = createContext(null);
 

@@ -18,7 +18,7 @@
  *
  * NO crear un fetch independiente por grupo/juego (regla sección 11/18).
  */
-import { ENV } from '../config/environment';
+import { ENV } from '../src/config/environment';
 
 async function request(path, options = {}) {
   const response = await fetch(`${ENV.API_BASE_URL}${path}`, {

@@ -8,23 +8,23 @@
  * global entre el Game Hub y cada juego.
  */
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/home/HomeScreen';
+import HomeScreen from '../src/screens/home/HomeScreen';
 
-import TriviaHomeScreen from '../screens/games/trivia/TriviaHomeScreen';
-import TriviaGameScreen from '../screens/games/trivia/TriviaGameScreen';
-import TriviaResultScreen from '../screens/games/trivia/TriviaResultScreen';
+import TriviaHomeScreen from '../src/screens/games/trivia/TriviaHomeScreen';
+import TriviaGameScreen from '../src/screens/games/trivia/TriviaGameScreen';
+import TriviaResultScreen from '../src/screens/games/trivia/TriviaResultScreen';
 
-import MemoramaHomeScreen from '../screens/games/memorama/MemoramaHomeScreen';
-import MemoramaGameScreen from '../screens/games/memorama/MemoramaGameScreen';
-import MemoramaResultScreen from '../screens/games/memorama/MemoramaResultScreen';
+import MemoramaHomeScreen from '../src/screens/games/memorama/MemoramaHomeScreen';
+import MemoramaGameScreen from '../src/screens/games/memorama/MemoramaGameScreen';
+import MemoramaResultScreen from '../src/screens/games/memorama/MemoramaResultScreen';
 
-import SudokuHomeScreen from '../screens/games/sudoku/SudokuHomeScreen';
-import SudokuGameScreen from '../screens/games/sudoku/SudokuGameScreen';
-import SudokuResultScreen from '../screens/games/sudoku/SudokuResultScreen';
+import SudokuHomeScreen from '../src/screens/games/sudoku/SudokuHomeScreen';
+import SudokuGameScreen from '../src/screens/games/sudoku/SudokuGameScreen';
+import SudokuResultScreen from '../src/screens/games/sudoku/SudokuResultScreen';
 
-import Game4HomeScreen from '../screens/games/game4/Game4HomeScreen';
-import Game4GameScreen from '../screens/games/game4/Game4GameScreen';
-import Game4ResultScreen from '../screens/games/game4/Game4ResultScreen';
+import Game4HomeScreen from '../src/screens/games/game4/Game4HomeScreen';
+import Game4GameScreen from '../src/screens/games/game4/Game4GameScreen';
+import Game4ResultScreen from '../src/screens/games/game4/Game4ResultScreen';
 
 const Stack = createNativeStackNavigator();
 

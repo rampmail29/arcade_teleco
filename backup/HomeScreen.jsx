@@ -7,10 +7,10 @@
  * NO renombrar como "LandingPage". El nombre conceptual es "Game Hub".
  */
 import { View, Text, StyleSheet } from 'react-native';
-import GameGrid from '../../components/game/GameGrid';
-import AppButton from '../../components/common/AppButton';
-import { useAuth } from '../../hooks/useAuth';
-import { games } from '../../data/games';
+import GameGrid from '../src/components/game/GameGrid';
+import AppButton from '../src/components/common/AppButton';
+import { useAuth } from '../src/hooks/useAuth';
+import { games } from '../src/data/games';
 
 export default function HomeScreen({ navigation }) {
   const { user, logout } = useAuth();

@@ -8,8 +8,8 @@
  * pasarán a consumir gameService -> apiClient -> API REST.
  */
 import { View, Text, StyleSheet } from 'react-native';
-import GameHeader from '../../../components/game/GameHeader';
-import AppButton from '../../../components/common/AppButton';
+import GameHeader from '../src/components/game/GameHeader';
+import AppButton from '../src/components/common/AppButton';
 
 export default function MemoramaHomeScreen({ navigation }) {
   return (

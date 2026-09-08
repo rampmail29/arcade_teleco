@@ -4,7 +4,7 @@
  * opción de volver a jugar o regresar al Game Hub).
  */
 import { View, Text, StyleSheet } from 'react-native';
-import AppButton from '../../../components/common/AppButton';
+import AppButton from '../src/components/common/AppButton';
 
 export default function TriviaResultScreen({ navigation, route }) {
   const { score = 0 } = route.params || {};

@@ -5,7 +5,7 @@
  * (ver sección 15/16 del documento de especificación).
  */
 import { View, StyleSheet } from 'react-native';
-import GameCard from './GameCard';
+import GameCard from '../src/components/game/GameCard';
 
 export default function GameGrid({ games = [], onSelectGame }) {
   return (
