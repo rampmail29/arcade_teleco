@@ -8,8 +8,13 @@
  * reintroduce el/los provider(s) correspondientes envolviendo AppNavigator.
  */
 import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App(): React.JSX.Element {
-  return <AppNavigator />;
+  return (
+    <SafeAreaProvider>
+      <AppNavigator />
+    </SafeAreaProvider>
+  );
 }
