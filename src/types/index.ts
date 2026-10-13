@@ -27,7 +27,17 @@ export type RootStackParamList = {
   Game4: undefined;
   Game4Game: undefined;
   Game4Result: { score: number };
+  RobotRun: undefined;
+  RobotRunGame: undefined;
+  RobotRunResult: RobotRunResultParams;
 };
+
+export interface RobotRunResultParams {
+  score: number;
+  obstaclesPassed: number;
+  bestScore: number;
+  isNewRecord: boolean;
+}
 
 // ── Mock Data ──
 export interface TriviaQuestion {
