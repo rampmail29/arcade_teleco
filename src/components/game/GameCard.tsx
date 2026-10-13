@@ -22,6 +22,7 @@ const gameIcons = {
   memorama: require('../../../assets/images/memorama.png'),
   sudoku: require('../../../assets/images/sudoku.png'),
   game4: require('../../../assets/images/incognito.png'),
+  robotrun: require('../../../assets/images/robotrun.png'),
 };
 
 export default function GameCard({
