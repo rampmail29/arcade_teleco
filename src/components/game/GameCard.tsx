@@ -15,6 +15,22 @@ export default function GameCard({ title, onPress }: GameCardProps): React.JSX.E
 }
 
 const styles = StyleSheet.create({
-  card: {},
-  title: {},
+  card: {
+    backgroundColor: '#007AFF', // Un azul bonito para los botones
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, // Sombra para Android
+  },
+  title: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });

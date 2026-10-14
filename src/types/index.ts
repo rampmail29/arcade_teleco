@@ -27,6 +27,9 @@ export type RootStackParamList = {
   Game4: undefined;
   Game4Game: undefined;
   Game4Result: { score: number };
+  Triki: undefined;
+  TrikiGame: undefined;
+  TrikiResult: { score: number };
 };
 
 // ── Mock Data ──

@@ -5,4 +5,5 @@ export const games: Game[] = [
   { id: 'memorama', title: 'Memorama', description: 'Encuentra las parejas', icon: 'memorama', route: 'Memorama' },
   { id: 'sudoku', title: 'Sudoku', description: 'Completa la cuadrícula', icon: 'sudoku', route: 'Sudoku' },
   { id: 'game4', title: 'Juego 4', description: 'Cuarto juego demostrativo', icon: 'game4', route: 'Game4' },
+  { id: 'triki', title: 'Triki', description: 'Juego Triki de toda la vida', icon: 'triki', route: 'Triki' },
 ];

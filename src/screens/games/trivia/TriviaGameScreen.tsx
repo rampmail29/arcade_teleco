@@ -11,7 +11,7 @@ export default function TriviaGameScreen({ navigation }: Props): React.JSX.Eleme
   const [score, setScore] = useState<number>(0);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container}>jkdhaljshdla
       <GameHeader title="Trivia" />
       <Text>Puntaje: {score}</Text>
       <AppButton title="Finalizar" onPress={() => navigation.navigate('TriviaResult', { score })} />
