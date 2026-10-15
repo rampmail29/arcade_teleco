@@ -78,6 +78,18 @@ test('POST /api/games/:id/scores responde 400 si score es decimal o negativo', a
   assert.equal(negativo.status, 400);
 });
 
+test('POST /api/games/:id/scores responde 400 si score excede el máximo de un INT de 32 bits', async () => {
+  const response = await request(app)
+    .post('/api/games/trivia/scores')
+    .send({ score: 2147483648, email: 'ana@uts.edu.co' });
+  assert.equal(response.status, 400);
+  assert.ok(response.body.error);
+
+  const history = await request(app).get('/api/games/trivia/history');
+  assert.equal(history.status, 200);
+  assert.equal(history.body.length, 0);
+});
+
 test('POST /api/games/:id/scores responde 400 si el email no es válido', async () => {
   const response = await request(app).post('/api/games/trivia/scores').send({ score: 10, email: 'no-es-correo' });
   assert.equal(response.status, 400);
@@ -86,6 +98,21 @@ test('POST /api/games/:id/scores responde 400 si el email no es válido', async 
 
 test('POST /api/games/:id/scores responde 400 con body vacío', async () => {
   const response = await request(app).post('/api/games/trivia/scores').send({});
+  assert.equal(response.status, 400);
+  assert.ok(response.body.error);
+});
+
+test('POST /api/games/:id/scores responde 400 (no 500) sin body ni Content-Type', async () => {
+  const response = await request(app).post('/api/games/trivia/scores');
+  assert.equal(response.status, 400);
+  assert.ok(response.body.error);
+});
+
+test('POST /api/games/:id/scores responde 400 (no 500) con JSON mal formado', async () => {
+  const response = await request(app)
+    .post('/api/games/trivia/scores')
+    .set('Content-Type', 'application/json')
+    .send('{esto no es json');
   assert.equal(response.status, 400);
   assert.ok(response.body.error);
 });

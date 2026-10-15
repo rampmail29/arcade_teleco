@@ -8,3 +8,8 @@ test('GET /api/health responde 200 con status ok', async () => {
   assert.equal(response.status, 200);
   assert.deepEqual(response.body, { status: 'ok' });
 });
+
+test('responde con cabeceras CORS para que el target web de Expo pueda consumir la API', async () => {
+  const response = await request(app).get('/api/health').set('Origin', 'http://localhost:8081');
+  assert.equal(response.headers['access-control-allow-origin'], '*');
+});

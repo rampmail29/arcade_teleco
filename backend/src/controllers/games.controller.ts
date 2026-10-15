@@ -10,7 +10,7 @@ export async function listGames(_req: Request, res: Response, next: NextFunction
   }
 }
 
-export async function getGame(req: Request, res: Response, next: NextFunction) {
+export async function getGame(req: Request<{ id: string }>, res: Response, next: NextFunction) {
   try {
     res.json(await getGameOrThrow(req.params.id));
   } catch (error) {
@@ -22,11 +22,12 @@ function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export async function postScore(req: Request, res: Response, next: NextFunction) {
+export async function postScore(req: Request<{ id: string }>, res: Response, next: NextFunction) {
   try {
-    const { score, email } = req.body as { score?: unknown; email?: unknown };
-    if (typeof score !== 'number' || !Number.isInteger(score) || score < 0) {
-      throw new HttpError(400, 'score debe ser un número entero mayor o igual a 0');
+    const { score, email } = (req.body ?? {}) as { score?: unknown; email?: unknown };
+    const MAX_SCORE = 2_147_483_647; // límite de un INT de 32 bits en la columna Score.value
+    if (typeof score !== 'number' || !Number.isInteger(score) || score < 0 || score > MAX_SCORE) {
+      throw new HttpError(400, `score debe ser un número entero entre 0 y ${MAX_SCORE}`);
     }
     if (typeof email !== 'string' || !isValidEmail(email)) {
       throw new HttpError(400, 'email debe ser un correo válido');
@@ -37,7 +38,7 @@ export async function postScore(req: Request, res: Response, next: NextFunction)
   }
 }
 
-export async function getGameHistory(req: Request, res: Response, next: NextFunction) {
+export async function getGameHistory(req: Request<{ id: string }>, res: Response, next: NextFunction) {
   try {
     const limitParam = req.query.limit;
     const parsed = typeof limitParam === 'string' ? Number(limitParam) : NaN;
