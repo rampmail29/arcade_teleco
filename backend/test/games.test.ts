@@ -40,3 +40,82 @@ test('GET /api/games/:id responde 404 si el juego no existe', async () => {
   assert.equal(response.status, 404);
   assert.ok(response.body.error);
 });
+
+test('POST /api/games/:id/scores guarda un puntaje nuevo y lo marca como récord', async () => {
+  const response = await request(app)
+    .post('/api/games/trivia/scores')
+    .send({ score: 100, email: 'ana@uts.edu.co' });
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body, { bestScore: 100, isNewRecord: true });
+});
+
+test('POST /api/games/:id/scores no marca récord si el puntaje es menor al guardado', async () => {
+  await request(app).post('/api/games/trivia/scores').send({ score: 100, email: 'ana@uts.edu.co' });
+  const response = await request(app)
+    .post('/api/games/trivia/scores')
+    .send({ score: 50, email: 'ana@uts.edu.co' });
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body, { bestScore: 100, isNewRecord: false });
+});
+
+test('POST /api/games/:id/scores trata el mismo correo en mayúsculas/minúsculas como el mismo usuario', async () => {
+  await request(app).post('/api/games/trivia/scores').send({ score: 70, email: 'Ana@UTS.edu.co' });
+  const response = await request(app)
+    .post('/api/games/trivia/scores')
+    .send({ score: 90, email: 'ana@uts.edu.co' });
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body, { bestScore: 90, isNewRecord: true });
+
+  const usersCount = await prisma.user.count({ where: { email: 'ana@uts.edu.co' } });
+  assert.equal(usersCount, 1);
+});
+
+test('POST /api/games/:id/scores responde 400 si score es decimal o negativo', async () => {
+  const decimal = await request(app).post('/api/games/trivia/scores').send({ score: 10.5, email: 'ana@uts.edu.co' });
+  assert.equal(decimal.status, 400);
+
+  const negativo = await request(app).post('/api/games/trivia/scores').send({ score: -5, email: 'ana@uts.edu.co' });
+  assert.equal(negativo.status, 400);
+});
+
+test('POST /api/games/:id/scores responde 400 si el email no es válido', async () => {
+  const response = await request(app).post('/api/games/trivia/scores').send({ score: 10, email: 'no-es-correo' });
+  assert.equal(response.status, 400);
+  assert.ok(response.body.error);
+});
+
+test('POST /api/games/:id/scores responde 400 con body vacío', async () => {
+  const response = await request(app).post('/api/games/trivia/scores').send({});
+  assert.equal(response.status, 400);
+  assert.ok(response.body.error);
+});
+
+test('POST /api/games/:id/scores responde 404 si el juego no existe', async () => {
+  const response = await request(app)
+    .post('/api/games/no-existe/scores')
+    .send({ score: 10, email: 'ana@uts.edu.co' });
+  assert.equal(response.status, 404);
+});
+
+test('GET /api/games/:id/history devuelve las partidas más recientes primero', async () => {
+  await request(app).post('/api/games/memorama/scores').send({ score: 10, email: 'ana@uts.edu.co' });
+  await request(app).post('/api/games/memorama/scores').send({ score: 20, email: 'ana@uts.edu.co' });
+
+  const response = await request(app).get('/api/games/memorama/history');
+  assert.equal(response.status, 200);
+  assert.equal(response.body.length, 2);
+  assert.equal(response.body[0].value, 20);
+  assert.equal(response.body[1].value, 10);
+  assert.equal(response.body[0].email, 'ana@uts.edu.co');
+});
+
+test('GET /api/games/:id/history con limit inválido cae al default de 20', async () => {
+  const response = await request(app).get('/api/games/memorama/history').query({ limit: 'abc' });
+  assert.equal(response.status, 200);
+  assert.ok(Array.isArray(response.body));
+});
+
+test('GET /api/games/:id/history responde 404 si el juego no existe', async () => {
+  const response = await request(app).get('/api/games/no-existe/history');
+  assert.equal(response.status, 404);
+});
