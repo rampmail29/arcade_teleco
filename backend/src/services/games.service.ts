@@ -75,3 +75,30 @@ export async function getHistory(gameId: string, limit: number): Promise<History
     createdAt: score.createdAt.toISOString(),
   }));
 }
+
+export interface RankingEntryDTO {
+  user: string;
+  score: number;
+}
+
+export async function getRankings(gameId?: string): Promise<RankingEntryDTO[]> {
+  if (gameId) {
+    await getGameOrThrow(gameId);
+  }
+
+  const grouped = await prisma.score.groupBy({
+    by: ['userId'],
+    where: gameId ? { gameId } : undefined,
+    _max: { value: true },
+  });
+
+  const users = await prisma.user.findMany({
+    where: { id: { in: grouped.map((g) => g.userId) } },
+    select: { id: true, email: true },
+  });
+  const emailById = new Map(users.map((u) => [u.id, u.email]));
+
+  return grouped
+    .map((g) => ({ user: emailById.get(g.userId) ?? 'desconocido', score: g._max.value ?? 0 }))
+    .sort((a, b) => b.score - a.score);
+}

@@ -119,3 +119,40 @@ test('GET /api/games/:id/history responde 404 si el juego no existe', async () =
   const response = await request(app).get('/api/games/no-existe/history');
   assert.equal(response.status, 404);
 });
+
+test('GET /api/rankings sin gameId devuelve el mejor puntaje de cada usuario entre todos sus juegos', async () => {
+  await request(app).post('/api/games/trivia/scores').send({ score: 30, email: 'ana@uts.edu.co' });
+  await request(app).post('/api/games/sudoku/scores').send({ score: 90, email: 'ana@uts.edu.co' });
+  await request(app).post('/api/games/trivia/scores').send({ score: 50, email: 'bea@uts.edu.co' });
+
+  const response = await request(app).get('/api/rankings');
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body, [
+    { user: 'ana@uts.edu.co', score: 90 },
+    { user: 'bea@uts.edu.co', score: 50 },
+  ]);
+});
+
+test('GET /api/rankings?gameId= filtra por juego', async () => {
+  await request(app).post('/api/games/trivia/scores').send({ score: 30, email: 'ana@uts.edu.co' });
+  await request(app).post('/api/games/trivia/scores').send({ score: 50, email: 'bea@uts.edu.co' });
+  await request(app).post('/api/games/sudoku/scores').send({ score: 999, email: 'ana@uts.edu.co' });
+
+  const response = await request(app).get('/api/rankings').query({ gameId: 'trivia' });
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body, [
+    { user: 'bea@uts.edu.co', score: 50 },
+    { user: 'ana@uts.edu.co', score: 30 },
+  ]);
+});
+
+test('GET /api/rankings?gameId= responde 404 si el juego no existe', async () => {
+  const response = await request(app).get('/api/rankings').query({ gameId: 'no-existe' });
+  assert.equal(response.status, 404);
+});
+
+test('GET /api/rankings devuelve [] si no hay puntajes guardados', async () => {
+  const response = await request(app).get('/api/rankings');
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body, []);
+});

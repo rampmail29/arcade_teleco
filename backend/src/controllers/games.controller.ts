@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { getAllGames, getGameOrThrow, saveScore, getHistory } from '../services/games.service.js';
+import { getAllGames, getGameOrThrow, saveScore, getHistory, getRankings } from '../services/games.service.js';
 import { HttpError } from '../middleware/errorHandler.js';
 
 export async function listGames(_req: Request, res: Response, next: NextFunction) {
@@ -43,6 +43,15 @@ export async function getGameHistory(req: Request, res: Response, next: NextFunc
     const parsed = typeof limitParam === 'string' ? Number(limitParam) : NaN;
     const limit = Number.isInteger(parsed) && parsed > 0 ? parsed : 20;
     res.json(await getHistory(req.params.id, limit));
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function listRankings(req: Request, res: Response, next: NextFunction) {
+  try {
+    const gameId = typeof req.query.gameId === 'string' ? req.query.gameId : undefined;
+    res.json(await getRankings(gameId));
   } catch (error) {
     next(error);
   }
