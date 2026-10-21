@@ -4,7 +4,7 @@
  * GameGrid (catálogo de src/data/games.ts) y el cierre de sesión.
  */
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import GameGrid from '../../components/game/GameGrid';
