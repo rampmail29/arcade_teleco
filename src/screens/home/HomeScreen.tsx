@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import GameGrid from '../../components/game/GameGrid';
@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }: Props): React.JSX.Element {
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <GameHeader title="Game Hub" />
-      <View style={styles.container}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
         <View style={styles.scoreBar}>
           {[
             ['HI-SCORE', '012500'], // score de ejemplo, modificar si ya se obtiene.
@@ -33,7 +33,7 @@ export default function HomeScreen({ navigation }: Props): React.JSX.Element {
           ))}
         </View>
         <GameGrid games={games} onSelectGame={handleSelectGame} />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  content: {
     paddingHorizontal: 16,
     paddingTop: 8,
   },
