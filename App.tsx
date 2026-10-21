@@ -1,20 +1,16 @@
 /**
  * App.tsx
- * Punto de entrada.
- *
- * NOTA: no incluye estrategia de autenticación por diseño. Cada grupo de
- * trabajo implementará su propia estrategia (Firebase, backend propio,
- * OAuth, etc.) en fases posteriores del curso. Cuando eso ocurra, aquí se
- * reintroduce el/los provider(s) correspondientes envolviendo AppNavigator.
+ * Punto de entrada. Envuelve AppNavigator con AuthProvider para que
+ * useAuth() esté disponible en toda la app (ver AUTH_SUPABASE.md).
  */
 import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AuthProvider } from './src/context/AuthContext';
 import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App(): React.JSX.Element {
   return (
-    <SafeAreaProvider>
+    <AuthProvider>
       <AppNavigator />
-    </SafeAreaProvider>
+    </AuthProvider>
   );
 }
