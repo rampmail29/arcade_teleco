@@ -1,7 +1,6 @@
-import React from 'react';
-import { Pressable, Text, StyleSheet, type GestureResponderEvent } from 'react-native';
+import { Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
 
-interface AppButtonProps {
+interface Props {
   title: string;
   onPress: (event: GestureResponderEvent) => void;
   disabled?: boolean;
