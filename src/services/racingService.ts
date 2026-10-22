@@ -1,18 +1,37 @@
 import { apiClient } from './apiClient';
+import { scoreService } from './scoreService';
 
-export interface RacingScoreData {
+export interface RacingScorePayload {
   jugador: string;
   score: number;
   tiempo: number;
 }
 
 export const racingService = {
-  // Envía la puntuación al backend
+  /**
+   * Guarda la puntuación usando el servicio general de scores.
+   * Si el backend tiene un endpoint directo dedicado, mantiene el fallback.
+   */
   async guardarScore(jugador: string, score: number, tiempo: number): Promise<any> {
-    return apiClient.post('/games/racing/scores', { jugador, score, tiempo });
+    try {
+      return await scoreService.submitScore({
+        gameId: 'racing',
+        player: jugador,
+        score,
+        details: { tiempo },
+      });
+    } catch {
+      return await apiClient.post('/games/racing/scores', {
+        jugador,
+        score,
+        tiempo,
+      });
+    }
   },
 
-  // Consulta el historial o ranking
+  /**
+   * Obtiene el historial o ranking específico de la pista de carreras.
+   */
   async obtenerHistorial(): Promise<any> {
     return apiClient.get('/games/racing/history');
   },
