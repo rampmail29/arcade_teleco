@@ -30,11 +30,21 @@ export type RootStackParamList = {
   RobotRun: undefined;
   RobotRunGame: undefined;
   RobotRunResult: RobotRunResultParams;
+  Racing: undefined;
+  RacingGame: undefined;
+  RacingResult: RacingResultParams;
 };
 
 export interface RobotRunResultParams {
   score: number;
   obstaclesPassed: number;
+  bestScore: number;
+  isNewRecord: boolean;
+}
+
+export interface RacingResultParams {
+  score: number;
+  obstaclesDodged: number;
   bestScore: number;
   isNewRecord: boolean;
 }
