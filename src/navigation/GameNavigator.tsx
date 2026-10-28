@@ -13,9 +13,13 @@ import SudokuResultScreen from '../screens/games/sudoku/SudokuResultScreen';
 import Game4HomeScreen from '../screens/games/game4/Game4HomeScreen';
 import Game4GameScreen from '../screens/games/game4/Game4GameScreen';
 import Game4ResultScreen from '../screens/games/game4/Game4ResultScreen';
+import TrikiHomeScreen from '../screens/games/triki/TrikiHomeScreen';
+import TrikiGameScreen from '../screens/games/triki/TrikiGameScreen';
+import TrikiResultScreen from '../screens/games/triki/TrikiResultScreen';
 import RobotRunHomeScreen from '../screens/games/robotrun/RobotRunHomeScreen';
 import RobotRunGameScreen from '../screens/games/robotrun/RobotRunGameScreen';
 import RobotRunResultScreen from '../screens/games/robotrun/RobotRunResultScreen';
+import {RacingGameScreen} from '../screens/games/racing/RacingGameScreen';
 import type { RootStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -36,7 +40,11 @@ export default function GameNavigator(): React.JSX.Element {
       <Stack.Screen name="Game4" component={Game4HomeScreen} />
       <Stack.Screen name="Game4Game" component={Game4GameScreen} />
       <Stack.Screen name="Game4Result" component={Game4ResultScreen} />
+      <Stack.Screen name="Triki" component={TrikiHomeScreen} />
+      <Stack.Screen name="TrikiGame" component={TrikiGameScreen} />
+      <Stack.Screen name="TrikiResult" component={TrikiResultScreen} />
       <Stack.Screen name="RobotRun" component={RobotRunHomeScreen} />
+      <Stack.Screen name="RacingGame" component={RacingGameScreen} />
       {/* Sin gesto de retroceso: el swipe no debe interrumpir la partida. */}
       <Stack.Screen name="RobotRunGame" component={RobotRunGameScreen} options={{ gestureEnabled: false }} />
       <Stack.Screen name="RobotRunResult" component={RobotRunResultScreen} options={{ gestureEnabled: false }} />
