@@ -19,3 +19,7 @@ export const mockSudokuBoard: number[][] = [
 export const mockRanking: RankingEntry[] = [
   { user: 'estudiante1@uts.edu.co', score: 850 },
 ];
+
+// Mejor puntaje inicial de Robot Run (Corte 1). scoreService lo usa como
+// valor de partida hasta que exista un récord guardado en el dispositivo.
+export const mockRobotRunBestScore = 0;
