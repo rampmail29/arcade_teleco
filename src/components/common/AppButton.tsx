@@ -1,50 +1,47 @@
-import React from 'react';
-import { Pressable, Text, StyleSheet } from 'react-native';
+import { Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
 
-interface AppButtonProps {
+interface Props {
   title: string;
-  onPress: () => void;
+  onPress: (event: GestureResponderEvent) => void;
+  disabled?: boolean;
   variant?: 'primary' | 'secondary';
 }
 
-export default function AppButton({ title, onPress, variant = 'primary' }: AppButtonProps): React.JSX.Element {
+export default function AppButton({
+  title,
+  onPress,
+  disabled = false,
+  variant = 'primary',
+}: AppButtonProps): React.JSX.Element {
   return (
-    <Pressable 
-      style={[styles.button, variant === 'secondary' ? styles.secondary : styles.primary]} 
+    <Pressable
+      style={({ pressed }) => [
+        styles.button,
+        variant === 'secondary' && styles.secondary,
+        (disabled || pressed) && styles.pressed,
+      ]}
       onPress={onPress}
+      disabled={disabled}
     >
-      <Text style={[styles.text, variant === 'secondary' ? styles.textSecondary : styles.textPrimary]}>
-        {title}
-      </Text>
+      <Text style={[styles.text, variant === 'secondary' && styles.textSecondary]}>{title}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    backgroundColor: '#4f46e5',
+    borderRadius: 10,
+    paddingVertical: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
-  },
-  primary: {
-    backgroundColor: '#007AFF', // Azul principal
   },
   secondary: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#999',
+    borderColor: '#4f46e5',
   },
-  text: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  textPrimary: {
-    color: '#fff',
-  },
-  textSecondary: {
-    color: '#666',
-  }
+  pressed: { opacity: 0.7 },
+  text: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  textSecondary: { color: '#4f46e5' },
 });

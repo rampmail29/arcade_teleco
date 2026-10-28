@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import AppButton from '../../../components/common/AppButton';
+import AppButton from './components/TrikiButton';
 import type { RootStackParamList } from '../../../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Triki'>;
