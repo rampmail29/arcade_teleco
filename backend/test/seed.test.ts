@@ -28,5 +28,5 @@ test('ejecutar prisma/seed.ts directamente (CLI) corre el seed y lo reporta por 
     env: process.env,
     encoding: 'utf8',
   });
-  assert.match(stdout, /Seed listo: 5 juegos\./);
+  assert.match(stdout, new RegExp(`Seed listo: ${GAME_FIXTURES.length} juegos\\.`));
 });
