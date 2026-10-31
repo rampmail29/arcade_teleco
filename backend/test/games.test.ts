@@ -28,11 +28,12 @@ test('GET /api/games devuelve los juegos sembrados', async () => {
   );
 });
 
-test('GET /api/games incluye triki y racing (ya mergeados en el frontend, les faltaba el seed)', async () => {
+test('GET /api/games incluye triki, racing y buscaminas (ya mergeados/en PR en el frontend, les faltaba el seed)', async () => {
   const response = await request(app).get('/api/games');
   const ids = response.body.map((g: { id: string }) => g.id);
   assert.ok(ids.includes('triki'), 'falta "triki" en el seed');
   assert.ok(ids.includes('racing'), 'falta "racing" en el seed');
+  assert.ok(ids.includes('buscaminas'), 'falta "buscaminas" en el seed');
 });
 
 test('POST /api/games/racing/scores ya no responde 404 (racingService.ts lo llama en producción)', async () => {
