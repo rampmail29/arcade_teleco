@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { getAllGames, getGameOrThrow, saveScore, getHistory, getRankings } from '../services/games.service.js';
 import { HttpError } from '../middleware/errorHandler.js';
+import type { AuthedRequest } from '../middleware/requireAuth.js';
 
 export async function listGames(_req: Request, res: Response, next: NextFunction) {
   try {
@@ -18,21 +19,15 @@ export async function getGame(req: Request<{ id: string }>, res: Response, next:
   }
 }
 
-function isValidEmail(value: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-export async function postScore(req: Request<{ id: string }>, res: Response, next: NextFunction) {
+export async function postScore(req: AuthedRequest<{ id: string }>, res: Response, next: NextFunction) {
   try {
-    const { score, email } = (req.body ?? {}) as { score?: unknown; email?: unknown };
+    const { score } = (req.body ?? {}) as { score?: unknown };
     const MAX_SCORE = 2_147_483_647; // límite de un INT de 32 bits en la columna Score.value
     if (typeof score !== 'number' || !Number.isInteger(score) || score < 0 || score > MAX_SCORE) {
       throw new HttpError(400, `score debe ser un número entero entre 0 y ${MAX_SCORE}`);
     }
-    if (typeof email !== 'string' || !isValidEmail(email)) {
-      throw new HttpError(400, 'email debe ser un correo válido');
-    }
-    res.json(await saveScore(req.params.id, email, score));
+    // requireAuth ya corrió antes que este controller y garantiza req.userEmail.
+    res.json(await saveScore(req.params.id, req.userEmail as string, score));
   } catch (error) {
     next(error);
   }
