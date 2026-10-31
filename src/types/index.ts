@@ -36,6 +36,9 @@ export type RootStackParamList = {
   Racing: undefined;
   RacingGame: undefined;
   RacingResult: RacingResultParams;
+  Buscaminas: undefined;
+  BuscaminasGame: undefined;
+  BuscaminasResult: BuscaminasResultParams;
 };
 
 export interface RobotRunResultParams {
@@ -48,6 +51,14 @@ export interface RobotRunResultParams {
 export interface RacingResultParams {
   score: number;
   obstaclesDodged: number;
+  bestScore: number;
+  isNewRecord: boolean;
+}
+
+export interface BuscaminasResultParams {
+  score: number;
+  cellsRevealed: number;
+  won: boolean;
   bestScore: number;
   isNewRecord: boolean;
 }

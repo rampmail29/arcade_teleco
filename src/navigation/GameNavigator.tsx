@@ -20,6 +20,9 @@ import RobotRunHomeScreen from '../screens/games/robotrun/RobotRunHomeScreen';
 import RobotRunGameScreen from '../screens/games/robotrun/RobotRunGameScreen';
 import RobotRunResultScreen from '../screens/games/robotrun/RobotRunResultScreen';
 import {RacingGameScreen} from '../screens/games/racing/RacingGameScreen';
+import BuscaminasHomeScreen from '../screens/games/buscaminas/BuscaminasHomeScreen';
+import BuscaminasGameScreen from '../screens/games/buscaminas/BuscaminasGameScreen';
+import BuscaminasResultScreen from '../screens/games/buscaminas/BuscaminasResultScreen';
 import type { RootStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -48,6 +51,9 @@ export default function GameNavigator(): React.JSX.Element {
       {/* Sin gesto de retroceso: el swipe no debe interrumpir la partida. */}
       <Stack.Screen name="RobotRunGame" component={RobotRunGameScreen} options={{ gestureEnabled: false }} />
       <Stack.Screen name="RobotRunResult" component={RobotRunResultScreen} options={{ gestureEnabled: false }} />
+      <Stack.Screen name="Buscaminas" component={BuscaminasHomeScreen} />
+      <Stack.Screen name="BuscaminasGame" component={BuscaminasGameScreen} options={{ gestureEnabled: false }} />
+      <Stack.Screen name="BuscaminasResult" component={BuscaminasResultScreen} />
     </Stack.Navigator>
   );
 }
