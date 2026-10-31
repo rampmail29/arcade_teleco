@@ -35,7 +35,7 @@ export default function BuscaminasHomeScreen({ navigation }: Props): React.JSX.E
   return (
     <GameScreenLayout title="Buscaminas" onBack={() => navigation.popTo('Home')} scrollable>
       <View style={styles.infoCard}>
-        <Text style={styles.cardBadge}>GAME_07</Text>
+        <Text style={styles.cardBadge}>GAME_08</Text>
         <Text style={styles.cardTitle}>BUSCAMINAS</Text>
         <Text style={styles.cardDesc}>
           Encuentra todas las celdas seguras sin detonar ninguna mina.
