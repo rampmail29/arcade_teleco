@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { errorHandler } from './middleware/errorHandler.js';
 import { gamesRouter, rankingsRouter } from './routes/games.routes.js';
+import { meRouter } from './routes/me.routes.js';
 
 export const app = express();
 
@@ -16,6 +17,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/games', gamesRouter);
 app.use('/api/rankings', rankingsRouter);
+app.use('/api/me', meRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });

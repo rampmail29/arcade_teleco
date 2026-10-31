@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "pretest": "tsc --noEmit && rimraf prisma/test.db && cross-env DATABASE_URL=file:./test.db prisma db push --skip-generate --accept-data-loss",
-    "test": "cross-env DATABASE_URL=file:./test.db tsx --test",
+    "test": "cross-env DATABASE_URL=file:./test.db tsx --test --test-concurrency=1",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts"
   },

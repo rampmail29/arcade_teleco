@@ -38,13 +38,23 @@ Corre contra una base SQLite separada (`prisma/test.db`), no contra `dev.db`.
 | POST | `/api/games/:id/scores` | `{ score }` + header `Authorization: Bearer <token de Supabase>` | `{ bestScore, isNewRecord }` (401 sin token o con token inválido) |
 | GET | `/api/games/:id/history` | `?limit=` (default 20) | `{ value, email, createdAt }[]` |
 | GET | `/api/rankings` | `?gameId=` (opcional) | `{ user, score }[]` |
+| GET | `/api/me/achievements` | — (requiere `Authorization: Bearer <token>`) | `{ id, title, description, unlockedAt }[]` |
 
 `POST /scores` exige sesión: el `email` ya no se manda en el body, sale del
 token de Supabase ya verificado (`requireAuth`, contra el JWKS público del
 mismo proyecto que usa el frontend — no hace falta ningún secreto nuevo).
 `/history` y `/rankings` siguen públicos, sin autenticación.
 
+## Logros (Achievements)
+
+Las definiciones viven en código (`src/achievements/definitions.ts`), no en
+la base — la tabla `UserAchievement` solo guarda qué usuario desbloqueó qué
+logro y cuándo. Se revisan automáticamente después de cada `POST /scores`
+(`unlockNewAchievements`). Por ahora hay uno: `three_games_100` — al menos
+100 puntos en 3 juegos distintos. Agregar el siguiente es una entrada nueva
+en ese arreglo, sin tocar nada más.
+
 ## Fuera de alcance de esta versión
 
-`GET /api/users/me` — ver `docs/superpowers/specs/2026-10-15-backend-api-design.md`,
-sección 10.
+`GET /api/users/me` (perfil del usuario) — ver
+`docs/superpowers/specs/2026-10-15-backend-api-design.md`, sección 10.

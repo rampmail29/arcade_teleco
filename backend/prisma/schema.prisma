@@ -15,10 +15,11 @@ model Game {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  scores    Score[]
-  createdAt DateTime @default(now())
+  id           String            @id @default(uuid())
+  email        String            @unique
+  scores       Score[]
+  achievements UserAchievement[]
+  createdAt    DateTime          @default(now())
 }
 
 model Score {
@@ -31,5 +32,19 @@ model Score {
   createdAt DateTime @default(now())
 
   @@index([gameId])
+  @@index([userId])
+}
+
+// Qué usuario desbloqueó qué logro y cuándo. Las definiciones de los logros
+// (título, descripción, regla) viven en código (src/achievements/), no acá
+// — esta tabla solo guarda el hecho de que se desbloqueó.
+model UserAchievement {
+  id          String   @id @default(uuid())
+  userId      String
+  achievement String
+  unlockedAt  DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, achievement])
   @@index([userId])
 }
