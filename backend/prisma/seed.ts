@@ -7,6 +7,7 @@ export const GAME_FIXTURES = [
   { id: 'sudoku', title: 'Sudoku', description: 'Completa la cuadrícula' },
   { id: 'game4', title: 'Juego 4', description: 'Cuarto juego demostrativo' },
   { id: 'robotrun', title: 'Robot Run', description: 'Salta y esquiva obstáculos' },
+  { id: 'buscaminas', title: 'Buscaminas', description: 'Encuentra las celdas seguras sin detonar ninguna mina' },
 ];
 
 export async function seedGames(prisma: PrismaClient): Promise<void> {

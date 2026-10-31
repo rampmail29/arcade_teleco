@@ -18,7 +18,7 @@ after(async () => {
   await prisma.$disconnect();
 });
 
-test('GET /api/games devuelve los 5 juegos sembrados', async () => {
+test('GET /api/games devuelve los juegos sembrados', async () => {
   const response = await request(app).get('/api/games');
   assert.equal(response.status, 200);
   assert.equal(response.body.length, GAME_FIXTURES.length);
@@ -26,6 +26,12 @@ test('GET /api/games devuelve los 5 juegos sembrados', async () => {
     response.body.map((g: { id: string }) => g.id).sort(),
     GAME_FIXTURES.map((g) => g.id).sort(),
   );
+});
+
+test('GET /api/games incluye buscaminas (juego nuevo del frontend, le faltaba el seed)', async () => {
+  const response = await request(app).get('/api/games');
+  const ids = response.body.map((g: { id: string }) => g.id);
+  assert.ok(ids.includes('buscaminas'), 'falta "buscaminas" en el seed');
 });
 
 test('GET /api/games/:id devuelve un juego existente', async () => {
