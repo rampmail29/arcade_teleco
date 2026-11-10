@@ -11,14 +11,26 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
-    "ios": { "supportsTablet": true },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/icon.png",
         "backgroundColor": "#ffffff"
       }
     },
-    "web": { "favicon": "./assets/icons/icon.png" }
+    "web": {
+      "favicon": "./assets/icons/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "309eaa4f-3af0-4b40-b834-d8aeae06e53d"
+      }
+    },
+    "owner": "arcade-uts"
   }
 }
