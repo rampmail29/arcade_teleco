@@ -1,5 +1,6 @@
 import { prisma } from '../lib/prisma.js';
 import { HttpError } from '../middleware/errorHandler.js';
+import { unlockNewAchievements } from './achievements.service.js';
 
 export interface GameDTO {
   id: string;
@@ -47,6 +48,7 @@ export async function saveScore(gameId: string, email: string, value: number): P
   const bestScore = previousBest._max.value ?? 0;
 
   await prisma.score.create({ data: { gameId, userId: user.id, value } });
+  await unlockNewAchievements(user.id);
 
   return value > bestScore
     ? { bestScore: value, isNewRecord: true }

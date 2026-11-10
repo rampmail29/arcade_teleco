@@ -19,6 +19,10 @@ before(async () => {
 });
 
 beforeEach(async () => {
+  // UserAchievement referencia a User con ON DELETE RESTRICT: hay que
+  // limpiarla primero o el deleteMany de user falla si quedó algún logro
+  // desbloqueado de otro archivo de test que comparte el mismo test.db.
+  await prisma.userAchievement.deleteMany();
   await prisma.score.deleteMany();
   await prisma.user.deleteMany();
 });
